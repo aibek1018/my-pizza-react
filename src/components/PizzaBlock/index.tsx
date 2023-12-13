@@ -1,10 +1,26 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
-const typeNames = ["тонкое", "традиционное"];
+const typeNames = ['тонкое', 'традиционное'];
 
-function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+type PizzaBlockProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
   const [activeType, setActiveType] = React.useState(0);
@@ -27,11 +43,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <img
-          className="pizza-block__image"
-          src={imageUrl}
-          alt="Pizza"
-        />
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
         <h4 className="pizza-block__title">{title}</h4>
         <div className="pizza-block__selector">
           <ul>
@@ -39,7 +51,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
               <li
                 key={typeId}
                 onClick={() => setActiveType(typeId)}
-                className={activeType === typeId ? "active" : ""}
+                className={activeType === typeId ? 'active' : ''}
               >
                 {typeNames[typeId]}
               </li>
@@ -50,7 +62,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
               <li
                 key={size}
                 onClick={() => setActiveSize(index)}
-                className={activeSize === index ? "active" : ""}
+                className={activeSize === index ? 'active' : ''}
               >
                 {size} см.
               </li>
@@ -82,6 +94,6 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

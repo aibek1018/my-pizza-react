@@ -17,7 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { sortList } from '../components/Sort';
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
@@ -28,11 +28,11 @@ const Home = () => {
   const { categoryId, sort, currentPage, searchValue } =
     useSelector(selectFilter);
 
-  const onChangeCategory = React.useCallback((idx) => {
+  const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
   }, []);
 
-  const onChangePage = (page) => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
 
@@ -43,6 +43,7 @@ const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -110,11 +111,9 @@ const Home = () => {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizzas = items.map((obj) => (
-    <Link  key={obj.id} to={`/pizza/${obj.id}`}>
-      <PizzaBlock
-        {...obj}
-      />
+  const pizzas = items.map((obj: any) => (
+    <Link key={obj.id} to={`/pizza/${obj.id}`}>
+      <PizzaBlock {...obj} />
     </Link>
   ));
 
@@ -125,19 +124,16 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          value={categoryId}
-          onChangeCategory={onChangeCategory}
-        />
-        <Sort value={sort} />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort />
+        {/* <Sort value={sort} /> */}
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
         <div className="content__error-info">
           <h2>
-            {' '}
-            Произошла ошибка <icon>😕</icon>{' '}
-          </h2>{' '}
+            Произошла ошибка <h2>😕</h2>
+          </h2>
           <p>Не удалось получить пиццы</p>
         </div>
       ) : (
@@ -146,10 +142,7 @@ const Home = () => {
         </div>
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        onChangePage={onChangePage}
-      />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
 };
