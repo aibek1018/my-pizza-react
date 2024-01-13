@@ -4,9 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { selectCart } from '../redux/cart/selectors';
-import Search from './Search';
+import { Search } from './';
 
-function Header() {
+export const Header: React.FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
   const location = useLocation();
   const isMounted = React.useRef(false);
@@ -78,4 +78,3 @@ function Header() {
   );
 }
 
-export default Header;

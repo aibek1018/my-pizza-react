@@ -1,11 +1,8 @@
 import React from 'react';
 
-import Categories from '../components/Categories';
-import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
 import { useSelector } from 'react-redux';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import Pagination from '../components/Pagination';
+
+import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
 
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +41,7 @@ const Home: React.FC = () => {
   const getPizzas = async () => {
     const sortBy = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-    const category = categoryId > 0 ? String(categoryId) : '';
+    const category = categoryId > 0 ? `&category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
@@ -59,22 +56,6 @@ const Home: React.FC = () => {
 
     window.scrollTo(0, 0);
   };
-
-  // React.useEffect(() => {
-  //   if (isMounted.current) {
-  //     const params = {
-  //       categoryId: categoryId > 0 ? categoryId : null,
-  //       sortProperty: sort.sortProperty,
-  //       currentPage,
-  //     };
-
-  //     const queryString = qs.stringify(params, { skipNulls: true });
-
-  //     navigate(`?${queryString}`);
-  //   }
-
-  //   fetchPizzas();
-  // }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   React.useEffect(() => {
     getPizzas();
@@ -110,16 +91,6 @@ const Home: React.FC = () => {
       isSearch.current = true;
     }
   }, []);
-
-  // React.useEffect(() => {
-  //   window.scrollTo(0, 0);
-
-  //   if (!isSearch.current) {
-  //     getPizzas();
-  //   }
-
-  //   isSearch.current = false;
-  // }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 
