@@ -32,7 +32,7 @@ const FullPizza: React.FC = () => {
   }
   return (
     <div className="container">
-      <img src={pizza.imageUrl} />
+      <img src={pizza.imageUrl} style={{ width: '584px', height: '584px' }} />
       <h2>{pizza.title}</h2>
       <h4>{pizza.price} ₽</h4>
       <Link to="/">
